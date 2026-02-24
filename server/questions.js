@@ -1,7 +1,7 @@
 const QUESTIONS = [
   {
     id: 1,
-    text: "You're stuck in traffic. What do you do?",
+    text: "Megan's stuck in traffic. What does she do?",
     options: [
       "Listen to a podcast",
       "Honk repeatedly",
@@ -11,17 +11,17 @@ const QUESTIONS = [
   },
   {
     id: 2,
-    text: "It's Friday night. What's the move?",
+    text: "It's Friday night. What's Megan doing?",
     options: [
-      "Netflix and chill (alone)",
-      "House party",
+      "Catching up on TV with her partner",
+      "Craft party",
       "Nice dinner out",
-      "Early to bed, early to rise"
+      "Early to bed, early to rise (she has pilates the next day)"
     ]
   },
   {
     id: 3,
-    text: "You find $50 on the ground. What do you do?",
+    text: "You find $50 on the ground. What does Megan do?",
     options: [
       "Keep it — finders keepers",
       "Turn it in to authorities",
