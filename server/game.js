@@ -1,8 +1,8 @@
 const QUESTIONS = require('./questions');
 
 const QUESTION_DURATION = 20000; // 20 seconds
-const RESULT_DURATION = 4000;    // 4 seconds to show result
-const LEADERBOARD_DURATION = 6000; // 6 seconds to show leaderboard
+const RESULT_DURATION = 9000;    // 9 seconds to show result
+const LEADERBOARD_DURATION = 11000; // 11 seconds to show leaderboard
 
 class Game {
   constructor(io) {
