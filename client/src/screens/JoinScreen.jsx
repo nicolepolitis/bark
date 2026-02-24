@@ -21,7 +21,7 @@ export default function JoinScreen({ onJoin, error }) {
     <div className="screen">
       <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
         <div className="logo">bark<span>.</span></div>
-        <div className="tagline">the majority rules</div>
+        <div className="tagline">majority rules</div>
       </div>
 
       <div className="card">
