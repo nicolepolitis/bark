@@ -1,0 +1,100 @@
+import { useEffect, useState } from 'react';
+
+const OPTION_COLORS = ['#e94560', '#0f3460', '#533483', '#1a6b4a'];
+
+export default function ResultScreen({ data, player }) {
+  const {
+    majorityAnswer,
+    majorityOption,
+    answerCounts,
+    totalAnswers,
+    playerResults,
+    questionIndex,
+  } = data;
+
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 50);
+    return () => clearTimeout(t);
+  }, []);
+
+  const myResult = player ? playerResults[player.id] : null;
+  const isCorrect = myResult?.isCorrect;
+  const pointsEarned = myResult?.pointsEarned ?? 0;
+  const optionChosen = myResult?.optionChosen;
+  const didAnswer = optionChosen !== null && optionChosen !== undefined;
+
+  const maxCount = Math.max(...answerCounts, 1);
+  const totalOptions = answerCounts.length;
+
+  // Find the question options from context — we'll derive labels from indices
+  // (server sends answerCounts aligned with question.options)
+  return (
+    <div className="screen" style={{ animation: 'fadeIn 0.3s ease' }}>
+      {/* Verdict */}
+      <div className={`result-verdict ${isCorrect ? 'correct' : 'wrong'}`}>
+        <div className="verdict-icon">
+          {!didAnswer ? '⏱️' : isCorrect ? '🎉' : '💀'}
+        </div>
+        <div className={`verdict-title ${isCorrect ? 'correct' : 'wrong'}`}>
+          {!didAnswer
+            ? "Time's up!"
+            : isCorrect
+            ? 'With the crowd!'
+            : 'Against the grain'}
+        </div>
+        <div className="verdict-sub">
+          {!didAnswer
+            ? "You didn't answer in time"
+            : isCorrect
+            ? `You matched the majority answer`
+            : `The majority picked: ${majorityOption}`}
+        </div>
+        {pointsEarned > 0 && (
+          <div className="points-earned">+{pointsEarned} pts</div>
+        )}
+        {didAnswer && !isCorrect && (
+          <div className="points-earned" style={{ color: 'var(--wrong)', fontSize: '1.2rem' }}>+0 pts</div>
+        )}
+      </div>
+
+      {/* Vote breakdown */}
+      <div className="card majority-reveal">
+        <div className="majority-label">
+          How {totalAnswers} player{totalAnswers !== 1 ? 's' : ''} voted
+        </div>
+        <div className="vote-bars">
+          {answerCounts.map((count, idx) => (
+            <div key={idx} className="vote-row">
+              <div
+                className="vote-label"
+                style={{
+                  fontWeight: idx === majorityAnswer ? 700 : 400,
+                  color: idx === majorityAnswer ? 'var(--correct)' : 'var(--text)',
+                }}
+              >
+                {idx === majorityAnswer ? '✓ ' : ''}
+                {idx === optionChosen && idx !== majorityAnswer ? '→ ' : ''}
+                Option {idx + 1}
+              </div>
+              <div className="vote-bar-track">
+                <div
+                  className={`vote-bar-fill ${idx === majorityAnswer ? 'majority' : ''}`}
+                  style={{
+                    width: visible ? `${(count / maxCount) * 100}%` : '0%',
+                    background: OPTION_COLORS[idx],
+                    opacity: idx === majorityAnswer ? 1 : 0.5,
+                  }}
+                />
+              </div>
+              <div className="vote-count">{count}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="next-hint">Next question coming up…</div>
+    </div>
+  );
+}
