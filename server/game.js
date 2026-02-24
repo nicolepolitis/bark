@@ -137,18 +137,16 @@ class Game {
     });
     this.answerCounts = counts;
 
-    // Find majority (most selected option)
-    let maxCount = 0;
-    let majorityIndex = 0;
-    counts.forEach((c, i) => {
-      if (c > maxCount) {
-        maxCount = c;
-        majorityIndex = i;
-      }
-    });
+    // Find all options tied for the most votes
+    const maxCount = Math.max(...counts, 0);
+    const majorityIndices = counts
+      .map((c, i) => (c === maxCount ? i : -1))
+      .filter(i => i !== -1);
+    const isTie = majorityIndices.length > 1;
+    const majorityIndex = majorityIndices[0];
     this.majorityAnswer = majorityIndex;
 
-    // Score players
+    // Score players — any tied option counts as correct
     const playerResults = {};
     this.players.forEach((player, socketId) => {
       const answer = this.currentAnswers.get(socketId);
@@ -156,7 +154,7 @@ class Game {
       let isCorrect = false;
 
       if (answer !== undefined) {
-        isCorrect = answer.optionIndex === majorityIndex;
+        isCorrect = majorityIndices.includes(answer.optionIndex);
         if (isCorrect) {
           // Base 1000 pts + speed bonus up to 1000 pts
           const timeRatio = Math.max(0, 1 - answer.timeMs / QUESTION_DURATION);
@@ -175,6 +173,9 @@ class Game {
       questionIndex: this.currentQuestionIndex,
       majorityAnswer: majorityIndex,
       majorityOption: question.options[majorityIndex],
+      majorityIndices,
+      isTie,
+      options: question.options,
       answerCounts: counts,
       totalAnswers: this.currentAnswers.size,
       playerResults,

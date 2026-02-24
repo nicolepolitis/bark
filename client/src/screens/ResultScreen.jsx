@@ -6,6 +6,9 @@ export default function ResultScreen({ data, player }) {
   const {
     majorityAnswer,
     majorityOption,
+    majorityIndices = [majorityAnswer],
+    isTie = false,
+    options = [],
     answerCounts,
     totalAnswers,
     playerResults,
@@ -26,10 +29,7 @@ export default function ResultScreen({ data, player }) {
   const didAnswer = optionChosen !== null && optionChosen !== undefined;
 
   const maxCount = Math.max(...answerCounts, 1);
-  const totalOptions = answerCounts.length;
 
-  // Find the question options from context — we'll derive labels from indices
-  // (server sends answerCounts aligned with question.options)
   return (
     <div className="screen" style={{ animation: 'fadeIn 0.3s ease' }}>
       {/* Verdict */}
@@ -47,6 +47,8 @@ export default function ResultScreen({ data, player }) {
         <div className="verdict-sub">
           {!didAnswer
             ? "You didn't answer in time"
+            : isCorrect && isTie
+            ? `It's a tie — your answer was one of the winners!`
             : isCorrect
             ? `You matched the majority answer`
             : `The majority picked: ${majorityOption}`}
@@ -62,35 +64,38 @@ export default function ResultScreen({ data, player }) {
       {/* Vote breakdown */}
       <div className="card majority-reveal">
         <div className="majority-label">
-          How {totalAnswers} player{totalAnswers !== 1 ? 's' : ''} voted
+          {isTie ? "It's a tie! " : ''}How {totalAnswers} player{totalAnswers !== 1 ? 's' : ''} voted
         </div>
         <div className="vote-bars">
-          {answerCounts.map((count, idx) => (
-            <div key={idx} className="vote-row">
-              <div
-                className="vote-label"
-                style={{
-                  fontWeight: idx === majorityAnswer ? 700 : 400,
-                  color: idx === majorityAnswer ? 'var(--correct)' : 'var(--text)',
-                }}
-              >
-                {idx === majorityAnswer ? '✓ ' : ''}
-                {idx === optionChosen && idx !== majorityAnswer ? '→ ' : ''}
-                Option {idx + 1}
-              </div>
-              <div className="vote-bar-track">
+          {answerCounts.map((count, idx) => {
+            const isWinner = majorityIndices.includes(idx);
+            return (
+              <div key={idx} className="vote-row">
                 <div
-                  className={`vote-bar-fill ${idx === majorityAnswer ? 'majority' : ''}`}
+                  className="vote-label"
                   style={{
-                    width: visible ? `${(count / maxCount) * 100}%` : '0%',
-                    background: OPTION_COLORS[idx],
-                    opacity: idx === majorityAnswer ? 1 : 0.5,
+                    fontWeight: isWinner ? 700 : 400,
+                    color: isWinner ? 'var(--correct)' : 'var(--text)',
                   }}
-                />
+                >
+                  {isWinner ? '✓ ' : ''}
+                  {idx === optionChosen && !isWinner ? '→ ' : ''}
+                  {options[idx] ?? `Option ${idx + 1}`}
+                </div>
+                <div className="vote-bar-track">
+                  <div
+                    className={`vote-bar-fill ${isWinner ? 'majority' : ''}`}
+                    style={{
+                      width: visible ? `${(count / maxCount) * 100}%` : '0%',
+                      background: OPTION_COLORS[idx],
+                      opacity: isWinner ? 1 : 0.5,
+                    }}
+                  />
+                </div>
+                <div className="vote-count">{count}</div>
               </div>
-              <div className="vote-count">{count}</div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
