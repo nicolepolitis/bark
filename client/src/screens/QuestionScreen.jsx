@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
-const OPTION_COLORS = ['#e94560', '#0f3460', '#533483', '#1a6b4a'];
+const OPTION_COLORS = ['#F72585', '#7B2FBE', '#E040FB', '#9B59B6'];
+const OPTION_SHADOWS = ['#B5006D', '#5B1F8E', '#9D174D', '#6D28D9'];
 
 export default function QuestionScreen({ data, onAnswer, hasAnswered, answerCount, player }) {
   const { questionIndex, totalQuestions, question, duration } = data;
@@ -64,7 +65,7 @@ export default function QuestionScreen({ data, onAnswer, hasAnswered, answerCoun
                 ${selected === idx ? 'selected' : ''}
                 ${hasAnswered && selected !== idx ? 'faded' : ''}
               `}
-              style={{ background: OPTION_COLORS[idx] }}
+              style={{ background: OPTION_COLORS[idx], boxShadow: `0 5px 0 ${OPTION_SHADOWS[idx]}` }}
               onClick={() => handleAnswer(idx)}
               disabled={hasAnswered || timeLeft <= 0}
             >

@@ -6,13 +6,13 @@ html, body, #root {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: #0d0d1a;
+  background: #FDF4FF;
 }
 
 body {
-  font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   -webkit-font-smoothing: antialiased;
-  color: #f0f0f0;
+  color: #2E1065;
 }
 
 #root {
