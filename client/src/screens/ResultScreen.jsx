@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const OPTION_COLORS = ['#e94560', '#0f3460', '#533483', '#1a6b4a'];
+const OPTION_COLORS = ['#F72585', '#7B2FBE', '#E040FB', '#9B59B6'];
 
 export default function ResultScreen({ data, player }) {
   const {
