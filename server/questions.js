@@ -13,10 +13,10 @@ const QUESTIONS = [
     id: 2,
     text: "It's Friday night. What's Megan doing?",
     options: [
-      "Catching up on TV with her partner",
-      "Craft party",
+      "Catching up on TV",
+      "Hosting a craft party",
       "Nice dinner out",
-      "Early to bed, early to rise (she has pilates the next day)"
+      "Early to bed – she has pilates the next day"
     ]
   },
   {
@@ -91,12 +91,12 @@ const QUESTIONS = [
   },
   {
     id: 10,
-    text: "How do you handle a disagreement at work?",
+    text: "What will we miss most about Megan?",
     options: [
-      "Address it directly",
-      "Vent to a friend first",
-      "Let it go",
-      "Write a passive-aggressive email"
+      "Her ability to make any situation fun",
+      "The way she genuinely cared about every driver, client, and teammate",
+      "The bar she set for quality of work",
+      "All of the above and we're not okay"
     ]
   }
 ];
