@@ -25,10 +25,20 @@ export default function App() {
       setPlayers(players);
     });
 
-    socket.on('join_success', ({ id, name, emoji }) => {
+    socket.on('join_success', ({ id, name, emoji, gameState }) => {
       setPlayer({ id, name, emoji });
-      setScreen('lobby');
       setError(null);
+      if (!gameState) {
+        setScreen('lobby');
+      } else if (gameState.state === 'question') {
+        setGameData(gameState.questionData);
+        setHasAnswered(false);
+        setAnswerCount(gameState.answerCount);
+        setScreen('question');
+      } else {
+        setLeaderboardData(gameState.leaderboardData);
+        setScreen('leaderboard');
+      }
     });
 
     socket.on('join_error', ({ message }) => {

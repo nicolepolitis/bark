@@ -22,14 +22,64 @@ class Game {
   }
 
   addPlayer(socketId, name, emoji) {
+    const isLateJoin = this.state !== 'lobby';
+
+    // Pre-populate null answers for all questions that have already been resolved
+    const answers = [];
+    if (isLateJoin) {
+      const completedCount = this.state === 'question'
+        ? this.currentQuestionIndex           // current question not yet resolved
+        : Math.max(0, this.currentQuestionIndex + 1); // current question already resolved
+      for (let i = 0; i < completedCount; i++) {
+        answers.push({ optionIndex: null, isCorrect: false, pointsEarned: 0 });
+      }
+    }
+
     this.players.set(socketId, {
       id: socketId,
       name,
       emoji,
       score: 0,
-      answers: []
+      answers
     });
+
     this.broadcastLobbyState();
+
+    // If joining mid-question, update the answer count total for all clients
+    if (isLateJoin && this.state === 'question') {
+      this.io.emit('answer_count_update', {
+        count: this.currentAnswers.size,
+        total: this.players.size
+      });
+    }
+  }
+
+  getCurrentStateSync() {
+    if (this.state === 'question') {
+      const question = QUESTIONS[this.currentQuestionIndex];
+      const elapsed = Date.now() - this.questionStartTime;
+      const remaining = Math.max(0, QUESTION_DURATION - elapsed);
+      return {
+        state: 'question',
+        questionData: {
+          questionIndex: this.currentQuestionIndex,
+          totalQuestions: QUESTIONS.length,
+          question: { id: question.id, text: question.text, options: question.options },
+          duration: remaining
+        },
+        answerCount: { count: this.currentAnswers.size, total: this.players.size }
+      };
+    }
+    // result, leaderboard, or playing (transient) — send current leaderboard
+    return {
+      state: 'leaderboard',
+      leaderboardData: {
+        leaderboard: this.getLeaderboard(),
+        questionsCompleted: Math.max(0, this.currentQuestionIndex + 1),
+        totalQuestions: QUESTIONS.length,
+        isFinal: false
+      }
+    };
   }
 
   removePlayer(socketId) {
