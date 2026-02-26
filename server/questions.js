@@ -21,12 +21,12 @@ const QUESTIONS = [
   },
   {
     id: 3,
-    text: "You find $50 on the ground. What does Megan do?",
+    text: "Megan's at a wedding. Where do you find her?",
     options: [
-      "Keep it — finders keepers",
-      "Turn it in to authorities",
-      "Buy everyone nearby a coffee",
-      "Leave it — bad karma"
+      "On the dance floor immediately",
+      "Deep in conversation at the bar",
+      "Coordinating something no one asked her to",
+      "Crying during the vows"
     ]
   },
   {
