@@ -25,7 +25,7 @@ const QUESTIONS = [
     options: [
       "On the dance floor immediately",
       "Deep in conversation at the bar",
-      "Coordinating something no one asked her to",
+      "Coordinating something without being asked",
       "Crying during the vows"
     ]
   },
@@ -41,52 +41,52 @@ const QUESTIONS = [
   },
   {
     id: 5,
-    text: "What's the best pizza topping?",
+    text: "What does a Megan text look like?", 
     options: [
-      "Pepperoni",
-      "Mushrooms",
-      "Pineapple",
-      "Just cheese"
+      "A novel with full context", 
+      "One word and a GIF", 
+      "A voice note", 
+      "Four separate messages sent one word at a time"
     ]
   },
   {
     id: 6,
-    text: "You have one superpower. You pick:",
+    text: "Megan's most used emoji:", 
     options: [
-      "Teleportation",
-      "Mind reading",
-      "Invisibility",
-      "Time travel"
+      "😭",
+      "✨",
+      "🫠",
+      "❤️"
     ]
   },
   {
     id: 7,
-    text: "Ideal vacation vibe?",
+    text: "Megan's go-to karaoke song:", 
     options: [
-      "Beach & cocktails",
-      "Mountains & hiking",
-      "City & culture",
-      "Stay home & decompress"
+      "A banger everyone knows", 
+      "A deep cut", 
+      "A song with a full rap verse she has memorized", 
+      "She's the hype person, not the singer"
     ]
   },
   {
     id: 8,
-    text: "When you're sick, you:",
+    text: "Megan's go-to morning drink order:", 
     options: [
-      "Push through and work",
-      "Rest and binge TV",
-      "Complain to everyone",
-      "Pretend you're fine"
+      "Coffee – black", 
+      "Something with oat milk", 
+      "Iced matcha", 
+      "Herbal tea"
     ]
   },
   {
     id: 9,
-    text: "Your go-to morning drink?",
+   text: "Megan's favourite way to kill time:", 
     options: [
-      "Coffee — strong",
-      "Tea — calm",
-      "Water — pure",
-      "Energy drink — chaos"
+      "NYT Crosswords", 
+      "The Office re-runs", 
+      "LinkedIn Games", 
+      "Scrolling TikTok"
     ]
   },
   {
@@ -94,9 +94,9 @@ const QUESTIONS = [
     text: "What will we miss most about Megan?",
     options: [
       "Her ability to make any situation fun",
-      "The way she genuinely cared about every driver, client, and teammate",
+      "Her genuine care for every driver, client, and teammate",
       "The bar she set for quality of work",
-      "All of the above and we're not okay"
+      "All of the above – we're not okay"
     ]
   }
 ];
