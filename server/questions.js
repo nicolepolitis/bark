@@ -31,12 +31,12 @@ const QUESTIONS = [
   },
   {
     id: 4,
-    text: "Your phone dies at 20%. What's your reaction?",
+    text: "What does Megan order at a new restaurant?",
     options: [
-      "Panic immediately",
-      "Mildly annoyed",
-      "Total freedom",
-      "Scramble for a charger"
+      "Whatever the waiter recommends",
+      "Something she already knows she likes",
+      "The most adventurous thing on the menu",
+      "She already looked up the menu before arriving"
     ]
   },
   {
