@@ -37,8 +37,8 @@ io.on('connection', (socket) => {
       socket.emit('join_error', { message: 'Game is full (max 20 players)' });
       return;
     }
-    if (game.state !== 'lobby') {
-      socket.emit('join_error', { message: 'Game already in progress' });
+    if (game.state === 'finished') {
+      socket.emit('join_error', { message: 'Game has already ended' });
       return;
     }
     const trimmedName = String(name || '').trim().slice(0, 20);
@@ -47,9 +47,11 @@ io.on('connection', (socket) => {
       return;
     }
 
+    const isLateJoin = game.state !== 'lobby';
     game.addPlayer(socket.id, trimmedName, emoji || '🎮');
-    socket.emit('join_success', { id: socket.id, name: trimmedName, emoji });
-    console.log(`[+] ${trimmedName} ${emoji} joined`);
+    const gameState = isLateJoin ? game.getCurrentStateSync() : null;
+    socket.emit('join_success', { id: socket.id, name: trimmedName, emoji, gameState });
+    console.log(`[+] ${trimmedName} ${emoji} joined${isLateJoin ? ' (late)' : ''}`);
   });
 
   socket.on('start_game', () => {
